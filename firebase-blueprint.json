@@ -1,0 +1,51 @@
+{
+  "entities": {
+    "Risk": {
+      "title": "Risk",
+      "description": "A risk identified in the assessment register",
+      "type": "object",
+      "properties": {
+        "RiskID": { "type": "string" },
+        "RiskTitle": { "type": "string" },
+        "Type": { "type": "string" },
+        "Description": { "type": "string" },
+        "DescriptionEN": { "type": "string" },
+        "DescriptionAR": { "type": "string" },
+        "RiskRating": { "type": "string" },
+        "Likelihood": { "type": "string" },
+        "Impact": { "type": "string" },
+        "MitigatingActions": { "type": "string" },
+        "RiskOwner": { "type": "string" },
+        "Status": { "type": "string" },
+        "RiskLevel": { "type": "string" },
+        "KRI": { "type": "string" },
+        "LeadTrigger": { "type": "string" },
+        "LagTrigger": { "type": "string" },
+        "RPN": { "type": "number" },
+        "isVitalFew": { "type": "boolean" },
+        "linkedControls": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["RiskID", "RiskTitle", "Description"]
+    },
+    "ECCAssessment": {
+      "title": "ECC Assessment",
+      "description": "Assessment of an NCA ECC control",
+      "type": "object",
+      "properties": {
+        "controlCode": { "type": "string" },
+        "status": { "type": "string" },
+        "maturity": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}/risks/{riskId}": {
+      "schema": "Risk",
+      "description": "User's identified risks"
+    },
+    "/users/{userId}/eccAssessments/{eccId}": {
+      "schema": "ECCAssessment",
+      "description": "User's ECC control assessments"
+    }
+  }
+}

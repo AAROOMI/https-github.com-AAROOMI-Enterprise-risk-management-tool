@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: /users/{userId}/risks
+    // Document ID: UUID
+    // Fields:
+    //   - RiskID: string
+    //   - RiskTitle: string
+    //   - Type: string
+    //   - Description: string
+    //   - DescriptionEN: string
+    //   - DescriptionAR: string
+    //   - RiskRating: string
+    //   - Likelihood: string
+    //   - Impact: string
+    //   - MitigatingActions: string
+    //   - RiskOwner: string
+    //   - Status: string
+    //   - RiskLevel: string
+    //   - KRI: string
+    //   - LeadTrigger: string
+    //   - LagTrigger: string
+    //   - RPN: number
+    //   - isVitalFew: bool
+    //   - linkedControls: list (strings)
+    //
+    // Collection: /users/{userId}/eccAssessments
+    // Document ID: UUID
+    //
+    // Collection: /users/{userId}/settings
+    // Document ID: 'profile'
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidRisk(data) {
+      return data.RiskID is string && data.RiskID.size() < 100 &&
+             data.RiskTitle is string && data.RiskTitle.size() < 200 &&
+             data.Description is string && data.Description.size() < 5000;
+    }
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+
+      match /risks/{riskId} {
+        allow read: if isOwner(userId);
+        allow write: if isOwner(userId) && isValidRisk(request.resource.data);
+      }
+
+      match /eccAssessments/{eccId} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      match /settings/{settingId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+    
+    match /test/connection {
+      allow read: if true;
+    }
+  }
+}

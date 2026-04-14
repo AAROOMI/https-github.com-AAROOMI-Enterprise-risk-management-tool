@@ -1,0 +1,15 @@
+# Desktop Installation Instructions (Windows)
+
+To use this application as a desktop version on Windows machines, follow these steps:
+
+1. **Install Node.js**: Ensure Node.js is installed on the machine.
+2. **Clone/Download**: Download the application source code.
+3. **Install Dependencies**: Open a terminal in the project folder and run `npm install`.
+4. **Build**: Run `npm run build`.
+5. **Electron Wrapper (Recommended)**:
+   - Install Electron: `npm install --save-dev electron`
+   - Create a simple `main.js` for Electron to load the `dist/index.html`.
+   - Add a `start:desktop` script to `package.json`: `"electron ."`
+6. **Package**: Use `electron-builder` to create a `.exe` installer for distribution.
+
+For Air-Gap environments, ensure all dependencies are bundled in the installer.

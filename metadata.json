@@ -1,0 +1,7 @@
+{
+  "name": "Enterprise Risk & Compliance Register",
+  "description": "A comprehensive AI-powered risk assessment and compliance management platform with real-time Firebase syncing, bilingual descriptions, and advanced Pareto analysis.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
